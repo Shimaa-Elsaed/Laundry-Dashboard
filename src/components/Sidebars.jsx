@@ -1,7 +1,5 @@
-// Sidebars.jsx
 import React from "react";
-
-import { useState } from "react";
+import { FaHome } from "react-icons/fa";
 
 import { IoIosSettings } from "react-icons/io";
 import { CiBellOff } from "react-icons/ci";
@@ -16,89 +14,99 @@ import { CiMenuBurger } from "react-icons/ci";
 
 import { NavLink, useNavigate } from "react-router-dom";
 
+import {
+  ShoppingBag,
+  Users,
+  Shirt,
+  MapPin,
+  Percent,
+  Megaphone,
+  DollarSign,
+  Layers3,
+} from "lucide-react";
+import { GrHostMaintenance } from "react-icons/gr";
+
 const items = [
   {
-    title: "Mangments",
+    title: "لوحه التحكم",
     icon: <LuLayoutDashboard />,
     url: "/dashboard",
   },
 
   {
-    title: "Orders",
+    title: "الطلبات",
     icon: <CiUser />,
     url: "/dashboard/orders",
   },
 
   {
-    title: "Compliments",
+    title: "الشكاوي",
     icon: <IoBarChart />,
     url: "/dashboard/compliments",
   },
-
   {
-    title: "Earnings",
-    icon: <FaMessage />,
+    title: "التقارير",
+    icon: <FaCheckSquare />,
+    url: "/dashboard/reports",
+  },
+  {
+    title: "الكوبونات",
+    icon: <Percent />,
+    url: "/dashboard/copoun",
+  },
+  {
+    title: "الاعلانات",
+    icon: <Megaphone />,
+    url: "/dashboard/laundry",
+  },
+  {
+    title: "مغاسل",
+    icon: <Shirt />,
     url: "/dashboard/earnings",
   },
 
   {
-    title: "Reports",
-    icon: <FaCheckSquare />,
-    url: "/dashboard/reports",
-  },
-
-  {
-    title: "Copoun",
-    icon: <FaCalendar />,
-    url: "/dashboard/copoun",
-  },
-
-  {
-    title: "Ranking",
-    icon: <CiBellOff />,
+    title: "نصنيفات",
+    icon: <Layers3 />,
     url: "/dashboard/ranking",
   },
 
   {
-    title: "Price",
-    icon: <IoIosSettings />,
+    title: "قاءمه الاسعار",
+    icon: <DollarSign />,
     url: "/dashboard/price",
   },
-
   {
-    title: "Visits",
-    icon: <IoIosSettings />,
-    url: "/dashboard/visit",
-  },
-
-  {
-    title: "Laundry",
-    icon: <IoIosSettings />,
-    url: "/dashboard/laundry",
-  },
-
-  {
-    title: "Maintence",
-    icon: <IoIosSettings />,
-    url: "/dashboard/maintence",
-  },
-
-  {
-    title: "Customers",
-    icon: <IoIosSettings />,
+    title: "العملاء",
+    icon: <Users />,
     url: "/dashboard/customers",
   },
 
   {
-    title: "Settings",
+    title: "زيارات الترزي",
+    icon: <ShoppingBag />,
+    url: "/dashboard/visit",
+  },
+
+  {
+    title: "طلبات الصيانه",
+    icon: <GrHostMaintenance />,
+    url: "/dashboard/maintence",
+  },
+  {
+    title: "المناطق",
+    icon: <MapPin />,
+    url: "/dashboard/areas",
+  },
+
+  {
+    title: "الاعدادات",
     icon: <IoIosSettings />,
     url: "/dashboard/settings",
   },
 ];
 
-const Sidebars = () => {
-  const [open, setOpen] = useState(true);
-
+const Sidebars = ({ open, setOpen }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -108,91 +116,152 @@ const Sidebars = () => {
   };
 
   return (
-    <div
-      className={`
-        fixed
-        left-0
-        top-0
-        h-screen
-        bg-zinc-950
-        text-white
-        border-r
-        border-zinc-800
-        transition-all
-        duration-300
-        z-50
-        ${open ? "w-64" : "w-20"}
-      `}
-    >
-      {/* HEADER */}
-      <div className="h-16 border-b border-zinc-800 flex items-center justify-between px-4">
-        {open && <h1 className="text-xl font-black">Admin</h1>}
-
-        <button
-          onClick={() => setOpen(!open)}
+    <>
+      {/* OVERLAY MOBILE */}
+      {open && (
+        <div
+          onClick={() => setOpen(false)}
           className="
-            p-2
-            rounded-lg
-            hover:bg-zinc-800
-            transition
+            fixed
+            inset-0
+            bg-black/50
+            z-40
+            lg:hidden
           "
-        >
-          <CiMenuBurger className="text-xl" />
-        </button>
-      </div>
+        />
+      )}
 
-      {/* MENU */}
-      <div className="p-3 flex flex-col gap-2 overflow-y-auto h-[calc(100vh-130px)]">
-        {items.map((item) => (
-          <NavLink
-            key={item.title}
-            to={item.url}
-            end
-            className={({ isActive }) =>
-              `
-                flex
-                items-center
-                gap-3
-                p-3
-                rounded-xl
-                transition-all
-                ${
-                  isActive
-                    ? "bg-[#5B3DF5] text-white"
-                    : "hover:bg-zinc-800 text-zinc-300"
-                }
-              `
-            }
-          >
-            <span className="text-2xl">{item.icon}</span>
+      {/* SIDEBAR */}
+      <div
+        className={`
+          fixed
+          left-0
+          top-0
+          h-screen
+bg-zinc-950
+          text-white
 
-            {open && <span className="text-sm font-medium">{item.title}</span>}
-          </NavLink>
-        ))}
-      </div>
+          border-r
+          border-zinc-800
 
-      {/* FOOTER */}
-      <div className="absolute bottom-0 left-0 w-full p-3 border-t border-zinc-800">
-        <button
-          onClick={handleLogout}
+          transition-all
+          duration-300
+
+          z-50
+
+          flex
+          flex-col
+
+          ${open ? "w-64" : "w-20"}
+
+          ${open ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+        `}
+      >
+        {/* HEADER */}
+        <div
           className="
-            w-full
+            h-16
+            border-b
+            border-zinc-800
+
             flex
             items-center
-            gap-3
-            p-3
-            rounded-xl
-            hover:bg-red-500/20
-            hover:text-red-400
-            transition-all
+            justify-between
+
+            px-4
           "
         >
-          <CiLogout className="text-2xl" />
+          {open && (
+            <div className="flex items-center">
+              <h1>
+                <FaHome className="text-blue-600" />
+              </h1>
+              <h1 className="  p-3 font-semibold text-xl ">Daily Laundry</h1>
+            </div>
+          )}
+          <button
+            onClick={() => setOpen(!open)}
+            className="
+              p-2
+              rounded-lg
+              hover:bg-zinc-800
+              transition
+            "
+          >
+            <CiMenuBurger className="text-xl" />
+          </button>
+        </div>
 
-          {open && <span className="text-sm font-medium">Logout</span>}
-        </button>
+        {/* MENU */}
+        <div className="flex-1 overflow-y-auto p-3">
+          <div className="flex flex-col gap-2">
+            {items.map((item) => (
+              <NavLink
+                key={item.title}
+                to={item.url}
+                end
+                className={({ isActive }) =>
+                  `
+                    flex
+                    items-center
+
+                    ${open ? "justify-start" : "justify-center"}
+
+                    gap-3
+                    p-3
+
+                    rounded-xl
+
+                    transition-all
+
+                    ${
+                      isActive
+                        ? "bg-[#5B3DF5] text-white"
+                        : "hover:bg-zinc-800 text-zinc-300"
+                    }
+                  `
+                }
+              >
+                <span className="text-2xl">{item.icon}</span>
+
+                {open && (
+                  <span className="text-sm font-medium">{item.title}</span>
+                )}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+
+        {/* FOOTER */}
+        <div className="p-3 border-t border-zinc-800">
+          <button
+            onClick={handleLogout}
+            className={`
+    w-full
+
+    flex
+    items-center
+
+    ${open ? "justify-start" : "justify-center"}
+
+    gap-3
+    p-3
+
+    rounded-xl
+
+    hover:bg-red-500/20
+    hover:text-red-400
+
+    transition-all
+  `}
+          >
+            <CiLogout className="text-2xl" />
+
+            {open && <span className="text-sm font-medium">Logout</span>}
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from "react";
 import API from "@/api/axios";
 
@@ -38,8 +37,6 @@ const Compliments = () => {
     handle();
   }, []);
 
-  // Search + Filter
-
   const filteredData = useMemo(() => {
     return report.filter((item) => {
       const matchesSearch =
@@ -73,7 +70,10 @@ const Compliments = () => {
     );
 
   return (
-    <div className="p-6 min-h-screen bg-[#F8FAFC] dark:bg-[#0F172A] transition-all duration-300">
+    <div
+      dir="rtl"
+      className="p-6 min-h-screen bg-[#F8FAFC] dark:bg-[#0F172A] transition-all duration-300 text-right"
+    >
       {/* Header */}
 
       <div className="mb-10">
@@ -98,28 +98,24 @@ const Compliments = () => {
           <div className="relative flex-1">
             <Search
               size={20}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
             />
 
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="ابحث باسم العميل، الهاتف، أو محتوى الشكوى..."
-              className="h-14 rounded-2xl border-gray-200 dark:border-[#334155] bg-gray-50 dark:bg-[#0F172A] dark:text-white pr-12"
+              className="h-14 rounded-2xl border-gray-200 dark:border-[#334155] bg-gray-50 dark:bg-[#0F172A] dark:text-white pl-12 text-right"
             />
           </div>
 
           {/* Filter */}
 
           <div className="flex items-center gap-3">
-            <div className="bg-gray-100 dark:bg-[#0F172A] p-3 rounded-xl">
-              <Filter className="text-gray-500" size={18} />
-            </div>
-
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="h-14 px-5 rounded-2xl bg-gray-50 dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] dark:text-white outline-none min-w-[200px]"
+              className="h-14 px-5 rounded-2xl bg-gray-50 dark:bg-[#0F172A] border border-gray-200 dark:border-[#334155] dark:text-white outline-none min-w-[200px] text-right"
             >
               <option value="all">كل الحالات</option>
 
@@ -127,6 +123,10 @@ const Compliments = () => {
 
               <option value="resolved">تم حلها</option>
             </select>
+
+            <div className="bg-gray-100 dark:bg-[#0F172A] p-3 rounded-xl">
+              <Filter className="text-gray-500" size={18} />
+            </div>
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@ const Compliments = () => {
 
       <div className="bg-white dark:bg-[#1E293B] rounded-[35px] overflow-hidden shadow-sm border border-gray-100 dark:border-[#334155]">
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full text-right">
             <thead className="bg-gray-50 dark:bg-[#0F172A]">
               <tr className="text-gray-500 dark:text-gray-300 text-sm">
                 <th className="p-5 font-bold text-right">ID</th>
@@ -160,13 +160,9 @@ const Compliments = () => {
                   key={item.ComplaintID}
                   className="border-t border-gray-100 dark:border-[#334155] hover:bg-gray-50 dark:hover:bg-[#0F172A] transition"
                 >
-                  {/* ID */}
-
                   <td className="p-5 font-bold text-gray-700 dark:text-white">
                     #{item.ComplaintID}
                   </td>
-
-                  {/* Customer */}
 
                   <td className="p-5">
                     <div>
@@ -180,21 +176,15 @@ const Compliments = () => {
                     </div>
                   </td>
 
-                  {/* Service */}
-
                   <td className="p-5">
                     <span className="bg-gray-100 dark:bg-[#334155] text-gray-700 dark:text-white px-4 py-2 rounded-full text-sm font-semibold">
                       {item.ServiceType}
                     </span>
                   </td>
 
-                  {/* Order */}
-
                   <td className="p-5 text-gray-500 dark:text-gray-300">
                     {item.OrderID || "لا يوجد"}
                   </td>
-
-                  {/* Status */}
 
                   <td className="p-5">
                     {item.Status === "Pending" ? (
@@ -210,13 +200,9 @@ const Compliments = () => {
                     )}
                   </td>
 
-                  {/* Date */}
-
                   <td className="p-5 text-gray-600 dark:text-gray-300 text-sm">
                     {item.CreatedAt}
                   </td>
-
-                  {/* Details */}
 
                   <td className="p-5 text-center">
                     <Button
@@ -231,8 +217,6 @@ const Compliments = () => {
             </tbody>
           </table>
 
-          {/* Empty */}
-
           {filteredData.length === 0 && (
             <div className="text-center py-16">
               <h2 className="text-2xl font-bold text-gray-400">
@@ -245,4 +229,5 @@ const Compliments = () => {
     </div>
   );
 };
+
 export default Compliments;

@@ -1,19 +1,18 @@
-// Navbar.jsx
-
 import { useTheme } from "next-themes";
 import React from "react";
 
 import { FaMoon } from "react-icons/fa";
 import { MdLightMode } from "react-icons/md";
+import { CiMenuBurger } from "react-icons/ci";
 
 import { Button } from "./ui/button";
 
-const Navbar = () => {
+const Navbar = ({ open, setOpen }) => {
   const { theme, setTheme } = useTheme();
 
   return (
     <div
-      className="
+      className={`
         h-16
         bg-white dark:bg-zinc-950
         border-b
@@ -21,20 +20,46 @@ const Navbar = () => {
         fixed
         top-0
         right-0
-        left-[16rem]
-        z-50
+        z-40
+
         flex
         items-center
         justify-between
-        px-8
-      "
-    >
-      <h1 className="text-2xl font-bold text-zinc-800 dark:text-white">
-        Dashboard
-      </h1>
 
+        px-4 md:px-8
+
+        transition-all
+        duration-300
+
+        ${open ? "lg:left-64" : "lg:left-20"}
+
+        left-0
+      `}
+    >
+      {/* LEFT */}
       <div className="flex items-center gap-4">
-        {/* DARK MODE BUTTON */}
+        {/* MENU BUTTON */}
+        <button
+          onClick={() => setOpen(!open)}
+          className="
+            p-2
+            rounded-lg
+            hover:bg-gray-100
+            dark:hover:bg-zinc-800
+            transition
+          "
+        >
+          <CiMenuBurger className="text-2xl dark:text-white" />
+        </button>
+
+        <h1 className="text-xl md:text-2xl font-bold text-zinc-800 dark:text-white">
+          Laundry
+        </h1>
+      </div>
+
+      {/* RIGHT */}
+      <div className="flex items-center gap-3">
+        {/* DARK MODE */}
         <Button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           variant="outline"
@@ -43,17 +68,11 @@ const Navbar = () => {
           {theme === "dark" ? <MdLightMode /> : <FaMoon />}
         </Button>
 
-        {/* USER */}
-        <img
-          src="https://i.pravatar.cc/40"
-          alt=""
-          className="w-10 h-10 rounded-full"
-        />
+        {/* USER INFO */}
+        <div className="hidden md:block">
+          <h2 className="font-semibold dark:text-white">Daily Laundry</h2>
 
-        <div>
-          <h2 className="font-semibold dark:text-white">Admin</h2>
-
-          <p className="text-sm text-gray-500">admin@gmail.com</p>
+          <p className="text-sm text-gray-500">shimaa@gmail.com</p>
         </div>
       </div>
     </div>

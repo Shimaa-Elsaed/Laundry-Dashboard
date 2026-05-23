@@ -32,10 +32,6 @@ const Reports = () => {
 
       setReport(data.data);
     } catch (err) {
-      if (err.response?.status === 401) {
-        localStorage.removeItem("token");
-      }
-
       setError(err.response?.data?.message || err.message);
     } finally {
       setLoading(false);
@@ -71,33 +67,7 @@ const Reports = () => {
       desc: report?.summary?.visaRevenue || 0,
       price: "+31%",
     },
-    {
-      icon: <FaDollarSign />,
-      name: "إيراد الغسيل",
-      desc: report?.summary?.laundryRevenue || 0,
-      price: "+18%",
-    },
-    {
-      icon: <FaHandHoldingDollar />,
-      name: "إيراد التوصيل",
-      desc: report?.summary?.deliveryRevenue || 0,
-      price: "+10%",
-    },
-    {
-      icon: <FaSackDollar />,
-      name: "إيراد الصيانة",
-      desc: report?.summary?.maintenanceRevenue || 0,
-      price: "+7%",
-    },
-    {
-      icon: <FaHandsWash />,
-      name: "إيراد الخياطة",
-      desc: report?.summary?.tailorRevenue || 0,
-      price: "+15%",
-    },
   ];
-
-  // Monthly Chart Data
 
   const monthlyData =
     report?.charts?.monthly?.map((item) => ({
@@ -106,8 +76,6 @@ const Reports = () => {
       revenue: Number(item.revenue),
     })) || [];
 
-  // Categories Data
-
   const categoriesData =
     report?.charts?.categories?.map((item) => ({
       name: item.label,
@@ -115,104 +83,114 @@ const Reports = () => {
       revenue: Number(item.revenue),
     })) || [];
 
-  if (loading)
+  if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <h2 className="text-2xl font-bold">Loading...</h2>
+      <div
+        dir="rtl"
+        className="flex items-center justify-center h-screen bg-gray-100 dark:bg-zinc-950"
+      >
+        <h2 className="text-2xl font-bold dark:text-white">Loading...</h2>
       </div>
     );
-
-  if (error)
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <h2 className="text-red-500 text-2xl">{error}</h2>
-      </div>
-    );
+  }
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      {/* Header */}
+    <div
+      dir="rtl"
+      className="min-h-screen bg-gray-100 dark:bg-zinc-950 p-4 md:p-8 transition-all"
+    >
+      {/* ERROR */}
 
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-8">
-        <div className="flex items-center gap-4">
-          <div className="bg-[#5B3DF5] text-white p-4 rounded-2xl text-2xl">
+      {error && (
+        <div className="bg-red-100 text-red-600 p-4 rounded-2xl mb-6 text-right">
+          {error}
+        </div>
+      )}
+
+      {/* HEADER */}
+
+      <div className="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-6 mb-10">
+        <div className="flex items-start gap-4">
+          <div className="bg-[#5B3DF5] text-white p-4 rounded-3xl text-3xl shadow-lg">
             <IoBarChart />
           </div>
 
-          <div>
-            <h1 className="text-3xl font-black text-gray-800">
-              مركز التقارير والتحليلات
+          <div className="text-right">
+            <h1 className="text-3xl md:text-4xl font-black text-zinc-800 dark:text-white">
+              مركز التقارير
             </h1>
 
-            <p className="text-gray-500 mt-1">
-              نظرة استراتيجية على أداء المبيعات والعملاء والعمليات
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm md:text-base">
+              متابعة الأداء والتحليلات والإحصائيات الخاصة بالمبيعات
             </p>
           </div>
         </div>
 
-        {/* Buttons */}
-
         <div className="flex flex-wrap gap-3">
-          <Button className="bg-[#5B3DF5] hover:bg-[#4c31d9] rounded-xl px-6">
-            الكل (طريقة الدفع)
+          <Button className="bg-[#5B3DF5] hover:bg-[#4c31d9] rounded-2xl px-6 h-12">
+            الكل
           </Button>
 
           <Button
             variant="outline"
-            className="rounded-xl px-6 border-[#5B3DF5] text-[#5B3DF5]"
+            className="rounded-2xl px-6 h-12 dark:border-zinc-700 dark:text-white dark:bg-zinc-900"
           >
-            كل الأوقات
+            هذا الشهر
           </Button>
 
-          <Button className="bg-black hover:bg-gray-800 rounded-xl px-6">
+          <Button className="bg-black hover:bg-zinc-800 rounded-2xl px-6 h-12 text-white">
             تصدير PDF
           </Button>
         </div>
       </div>
 
-      {/* Cards */}
+      {/* CARDS */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         {datas.map((item, index) => (
           <div
             key={index}
-            className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-300"
+            className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all text-right"
           >
             <div className="flex items-center justify-between mb-5">
-              <div className="bg-[#F3F0FF] text-[#5B3DF5] p-4 rounded-2xl text-2xl">
-                {item.icon}
-              </div>
-
               <span className="text-green-500 font-bold text-sm">
                 {item.price}
               </span>
+
+              <div className="bg-[#F3F0FF] dark:bg-[#2a1e66] text-[#5B3DF5] p-4 rounded-2xl text-2xl">
+                {item.icon}
+              </div>
             </div>
 
-            <h3 className="text-gray-500 text-sm mb-2">{item.name}</h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-3">{item.name}</p>
 
-            <h1 className="text-3xl font-black text-gray-800">{item.desc}</h1>
+            <h2 className="text-3xl font-black text-zinc-800 dark:text-white">
+              {item.desc}
+            </h2>
           </div>
         ))}
       </div>
 
-      {/* Charts Section */}
+      {/* CHARTS */}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-10">
-        {/* Categories */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-10">
+        {/* CATEGORIES */}
 
-        <div className="bg-[#0B1020] text-white rounded-3xl p-6">
-          <h2 className="text-2xl font-black mb-8">أكثر التصنيفات طلبًا</h2>
+        <div className="bg-[#0B1020] rounded-3xl p-6 text-white">
+          <h2 className="text-2xl font-black mb-8 text-right">
+            أكثر التصنيفات طلبًا
+          </h2>
 
           <div className="space-y-6">
             {categoriesData.map((item, index) => (
               <div key={index}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold">%{item.volume}</span>
-
                   <span className="text-sm text-gray-300">{item.name}</span>
+
+                  <span className="font-bold">{item.volume}%</span>
                 </div>
 
-                <div className="w-full bg-[#1B2238] rounded-full h-3 overflow-hidden">
+                <div className="w-full h-3 bg-[#1B2238] rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
                       index === 0
@@ -222,30 +200,27 @@ const Reports = () => {
                           : "bg-orange-400"
                     }`}
                     style={{
-                      width: `${item.volume * 3}%,
-                   `,
+                      width: `${item.volume * 3}%`,
                     }}
                   />
                 </div>
               </div>
             ))}
           </div>
-
-          <button className="mt-10 text-white font-bold hover:text-gray-300 transition">
-            تقرير المبيعات التفصيلي
-          </button>
         </div>
 
-        {/* Monthly Chart */}
+        {/* CHART */}
 
-        <div className="lg:col-span-2 bg-white rounded-3xl p-6 shadow-sm">
-          <h2 className="text-3xl font-black text-gray-800 mb-2">
-            منحنى الأداء الشهري
-          </h2>
+        <div className="xl:col-span-2 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
+          <div className="text-right">
+            <h2 className="text-3xl font-black text-zinc-800 dark:text-white mb-2">
+              الأداء الشهري
+            </h2>
 
-          <p className="text-gray-500 dark:text-gray-300 mb-8">
-            مقارنة نسبة المبيعات خلال آخر الشهور الماضية
-          </p>
+            <p className="text-gray-500 dark:text-gray-400 mb-8">
+              مقارنة الأرباح خلال الشهور الماضية
+            </p>
+          </div>
 
           <div className="h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
@@ -267,4 +242,5 @@ const Reports = () => {
     </div>
   );
 };
+
 export default Reports;

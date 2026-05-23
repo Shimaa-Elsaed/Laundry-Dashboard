@@ -37,8 +37,8 @@ const Login = () => {
       console.log("jgjggk", res.data); //دي صح
       console.log("jgjggkhghgfhgfh", res.data.data.token); //دي غلط بس بعملهم الاتنين للتجارب
 
-     // localStorage.setItem("token", res.data); //دي صح
-         localStorage.setItem("token", res.data.data.token);
+      // localStorage.setItem("token", res.data); //دي صح
+      localStorage.setItem("token", res.data.data.token);
 
       navigate("/dashboard");
     } catch (err) {
