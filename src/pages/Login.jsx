@@ -1,12 +1,10 @@
-import React from "react";
-
 import { useState } from "react";
 import API from "@/api/axios";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-
+  const [showDemo, setShowDemo] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -88,6 +86,26 @@ const Login = () => {
         >
           {loading ? "Loading..." : "Login"}
         </button>
+        {/* Demo Account */}
+
+        <button
+          type="button"
+          onClick={() => setShowDemo(!showDemo)}
+          className="mt-4 text-sm text-[#5B3DF5] hover:underline"
+        >
+          {showDemo ? "Hide Demo Credentials" : "Show Demo Credentials"}
+        </button>
+
+        {showDemo && (
+          <div className="mt-3 p-4 border rounded-xl bg-gray-50 text-black">
+            <p>
+              <strong>Email:</strong> info@laundry.com
+            </p>
+            <p>
+              <strong>Password:</strong> 12345678
+            </p>
+          </div>
+        )}
       </form>
     </div>
   );
